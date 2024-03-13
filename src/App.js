@@ -1,10 +1,18 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [pdf, setPdf] = useState(null);
   const [url, setUrl] = useState("");
-
+  let temp;
+  // const openLink = () => {
+  //   window.open(temp);
+  // };
+  useEffect(() => {
+    if (url !== "") {
+      window.open(url);
+    }
+  }, [url]);
   const handleUpload = async () => {
     if (pdf === null) {
       console.log("Please upload an image");
@@ -31,7 +39,7 @@ function App() {
       const version = cloudData.version;
       console.log(cloudData.public_id);
       const public_link = cloudData.public_id;
-      const temp =
+      temp =
         "https://res.cloudinary.com/dte3ayeuj/image/upload/v" +
         version +
         "/" +
@@ -48,6 +56,11 @@ function App() {
     }
   };
 
+  const handleUpload2 = () => {
+    handleUpload();
+    //openLink();
+  };
+
   const handleFileChange = (e) => {
     setPdf(e.target.files[0]);
   };
@@ -56,7 +69,13 @@ function App() {
     <div className="App">
       <input type="file" onChange={handleFileChange} />
 
-      <button onClick={handleUpload}>Upload</button>
+      <button
+        onClick={() => {
+          handleUpload2();
+        }}
+      >
+        Upload
+      </button>
     </div>
   );
 }
